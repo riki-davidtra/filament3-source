@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $configItems['site_name']->value ?? 'Nama Website' }} - @stack('title', 'Halaman')</title>
-    @if ($configItems['favicon']->value && Storage::disk('public')->exists($configItems['favicon']->value))
-        <link rel="shortcut icon" type="image/x-icon" href="{{ Storage::url($configItems['favicon']->value) }}" rel="shortcut icon">
+    <title>{{ $settingItems['site_name']->value ?? 'Nama Website' }} - @stack('title', 'Halaman')</title>
+    @if ($settingItems['favicon']->value && Storage::disk('public')->exists($settingItems['favicon']->value))
+        <link rel="shortcut icon" type="image/x-icon" href="{{ Storage::url($settingItems['favicon']->value) }}" rel="shortcut icon">
     @else
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/') }}assets/images/favicon.png">
     @endif

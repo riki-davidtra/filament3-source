@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inorgas', function (Blueprint $table) {
+        Schema::create('setting_items', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
+            $table->foreignUuid('setting_id')->references('uuid')->on('settings')->cascadeOnDelete();
             $table->string('name');
-            $table->string('abbreviation');
+            $table->string('key');
+            $table->string('type');
+            $table->text('value')->nullable();
+            $table->text('value_file')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inorgas');
+        Schema::dropIfExists('setting_items');
     }
 };

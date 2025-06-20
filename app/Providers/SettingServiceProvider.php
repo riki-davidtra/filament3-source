@@ -3,20 +3,20 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\ConfigItem;
+use App\Models\SettingItem;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
-class ConfigServiceProvider extends ServiceProvider
+class SettingServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
      */
     public function register(): void
     {
-        $this->app->singleton('configItems', function () {
-            if (Schema::hasTable('config_items')) {
-                return ConfigItem::all()->keyBy('key');
+        $this->app->singleton('settingItems', function () {
+            if (Schema::hasTable('setting_items')) {
+                return SettingItem::all()->keyBy('key');
             }
             return collect();
         });
@@ -28,8 +28,8 @@ class ConfigServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('*', function ($view) {
-            $configItems = app('configItems');
-            $view->with('configItems', $configItems);
+            $settingItems = app('settingItems');
+            $view->with('settingItems', $settingItems);
         });
     }
 }

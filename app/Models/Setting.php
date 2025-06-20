@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class ConfigGroup extends Model
+class Setting extends Model
 {
     use HasFactory, HasUuids;
 
@@ -30,25 +30,34 @@ class ConfigGroup extends Model
         return (string) Uuid::uuid7();
     }
 
-    public function configItems()
+    public function getRouteKeyName()
     {
-        return $this->hasMany(ConfigItem::class, 'config_group_id', 'uuid');
+        return 'uuid';
+    }
+
+    public function settingItems()
+    {
+        return $this->hasMany(SettingItem::class, 'setting_id', 'uuid');
     }
 
     protected static function booted()
     {
         static::creating(function ($model) {
             if (!$model->order) {
-                $model->order = ConfigGroup::max('order') + 1;
+                $model->order = Setting::max('order') + 1;
             }
         });
 
         static::deleting(function ($model) {
-            if ($model->configItems) {
-                foreach ($model->configItems as $configItem) {
-                    $filePath = $configItem->value_file;
-                    if ($filePath && Storage::disk('public')->exists($filePath)) {
-                        Storage::disk('public')->delete($filePath);
+            foreach ($model->settingItems as $item) {
+                if ($item->value) {
+                    $oriPath = $item->value;
+                    $thumbPath = 'thumbs/' . $oriPath;
+                    if (Storage::disk('public')->exists($oriPath)) {
+                        Storage::disk('public')->delete($oriPath);
+                    }
+                    if (Storage::disk('public')->exists($thumbPath)) {
+                        Storage::disk('public')->delete($thumbPath);
                     }
                 }
             }

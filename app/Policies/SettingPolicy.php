@@ -19,7 +19,7 @@ class SettingPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Setting $configgroup): bool
+    public function view(User $user, Setting $setting): bool
     {
         return $user->checkPermissionTo('view Setting');
     }
@@ -35,7 +35,7 @@ class SettingPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Setting $configgroup): bool
+    public function update(User $user, Setting $setting): bool
     {
         return $user->checkPermissionTo('update Setting');
     }
@@ -43,7 +43,7 @@ class SettingPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Setting $configgroup): bool
+    public function delete(User $user, Setting $setting): bool
     {
         return $user->checkPermissionTo('delete Setting');
     }
@@ -59,7 +59,7 @@ class SettingPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Setting $configgroup): bool
+    public function restore(User $user, Setting $setting): bool
     {
         return $user->checkPermissionTo('restore Setting');
     }
@@ -75,7 +75,7 @@ class SettingPolicy
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(User $user, Setting $configgroup): bool
+    public function replicate(User $user, Setting $setting): bool
     {
         return $user->checkPermissionTo('replicate Setting');
     }
@@ -91,7 +91,7 @@ class SettingPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Setting $configgroup): bool
+    public function forceDelete(User $user, Setting $setting): bool
     {
         return $user->checkPermissionTo('force-delete Setting');
     }

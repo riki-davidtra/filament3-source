@@ -68,9 +68,9 @@ class User extends Authenticatable implements HasAvatar
         return (string) Uuid::uuid7();
     }
 
-    public function fornasRegistrations()
+    public function getRouteKeyName()
     {
-        return $this->hasMany(FornasRegistration::class);
+        return 'uuid';
     }
 
     public function getFilamentAvatarUrl(): ?string
@@ -83,24 +83,37 @@ class User extends Authenticatable implements HasAvatar
 
     protected static function booted()
     {
-        static::creating(function ($user) {
-            if (empty($user->username) && !empty($user->email)) {
-                $user->username = strstr($user->email, '@', true);
+        static::creating(function ($model) {
+            if (empty($model->username) && !empty($model->email)) {
+                $model->username = strstr($model->email, '@', true);
             }
         });
 
-        static::updating(function ($user) {
-            if ($user->isDirty('avatar_url')) {
-                if ($user->getOriginal('avatar_url') && $user->getOriginal('avatar_url') !== $user->avatar_url) {
-                    Storage::disk('public')->delete($user->getOriginal('avatar_url'));
+        static::updating(function ($model) {
+            if ($model->isDirty('avatar_url')) {
+                $oriPathOld = $model->getOriginal('avatar_url');
+                $thumbPathOld = 'thumbs/' . $oriPathOld;
+                $oriPathNew = $model->avatar_url;
+                if ($oriPathOld && $oriPathOld !== $oriPathNew) {
+                    if (Storage::disk('public')->exists($oriPathOld)) {
+                        Storage::disk('public')->delete($oriPathOld);
+                    }
+                    if (Storage::disk('public')->exists($thumbPathOld)) {
+                        Storage::disk('public')->delete($thumbPathOld);
+                    }
                 }
             }
         });
 
-        static::deleting(function ($user) {
-            if ($user) {
-                if ($user->avatar_url) {
-                    Storage::disk('public')->delete($user->avatar_url);
+        static::deleting(function ($model) {
+            if ($model->avatar_url) {
+                $oriPath = $model->avatar_url;
+                $thumbPath = 'thumbs/' . $oriPath;
+                if (Storage::disk('public')->exists($oriPath)) {
+                    Storage::disk('public')->delete($oriPath);
+                }
+                if (Storage::disk('public')->exists($thumbPath)) {
+                    Storage::disk('public')->delete($thumbPath);
                 }
             }
         });

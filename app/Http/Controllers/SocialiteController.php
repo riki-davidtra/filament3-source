@@ -62,7 +62,7 @@ class SocialiteController extends Controller
         }
 
         $user = User::findOrFail(session('pending_user_id'));
-        $siteName = App::make('configItems')['site_name']->value ?? 'Site Name';
+        $siteName = App::make('settingItems')['site_name']->value ?? 'Site Name';
         $info = "Penggantian kata sandi ini hanya berlaku untuk aplikasi <strong>{$siteName}</strong> dan tidak akan mempengaruhi kata sandi default e-mail resmi Anda (<strong>{$user->email}</strong>).";
         return view('auth.create-password', ['email' => $user->email, 'info' => $info]);
     }

@@ -24,10 +24,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SyncPermissionsSeeder::class,
             RolePermissionSeeder::class,
-            ConfigSeeder::class,
-            KormiSeeder::class,
-            InorgaSeeder::class,
-            FornasEventSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }

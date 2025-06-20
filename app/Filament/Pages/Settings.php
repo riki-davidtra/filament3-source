@@ -5,8 +5,7 @@ namespace App\Filament\Pages;
 use Filament\Forms;
 use Filament\Pages\Page;
 use Livewire\WithFileUploads;
-use App\Models\ConfigGroup;
-use App\Models\ConfigItem;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -28,15 +27,15 @@ class Settings extends Page implements Forms\Contracts\HasForms
 
     public static function canAccess(): bool
     {
-        return Auth::user()?->can('viewAny', \App\Models\ConfigGroup::class) ?? false;
+        return Auth::user()?->can('viewAny', \App\Models\Setting::class) ?? false;
     }
 
     public function mount(): void
     {
-        $this->configGroups = ConfigGroup::with('configItems')->orderBy('order')->get();
+        $this->configGroups = Setting::with('settingItems')->orderBy('order')->get();
 
         foreach ($this->configGroups as $group) {
-            foreach ($group->configItems as $item) {
+            foreach ($group->settingItems as $item) {
                 $this->items[$item->id] = $item->value;
 
                 if ($item->type === 'file' && $item->value_file) {
@@ -57,7 +56,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
         foreach ($this->configGroups as $group) {
             $groupFields = [];
 
-            foreach ($group->configItems as $item) {
+            foreach ($group->settingItems as $item) {
                 $id    = $item->id;
                 $label = $item->name;
 
@@ -99,12 +98,11 @@ class Settings extends Page implements Forms\Contracts\HasForms
                             ->label($label)
                             ->disk('public')
                             ->directory('configs')
-                            ->preserveFilenames()
                             ->openable()
                             ->maxSize(2048)
                             ->deleteUploadedFileUsing(function ($file) use ($id) {
                                 Storage::disk('public')->delete($file);
-                                $item = \App\Models\ConfigItem::find($id);
+                                $item = \App\Models\SettingItem::find($id);
                                 if ($item) {
                                     $item->value_file = null;
                                     $item->save();
@@ -132,7 +130,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
         $data = $this->form->getState();
 
         foreach ($this->configGroups as $group) {
-            foreach ($group->configItems as $item) {
+            foreach ($group->settingItems as $item) {
                 $itemId = $item->id;
 
                 if (in_array($item->type, ['text', 'textarea', 'textarea_editor', 'url', 'number', 'email', 'color'])) {

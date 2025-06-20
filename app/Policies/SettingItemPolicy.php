@@ -3,25 +3,25 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\Response;
-use App\Models\Setting;
+use App\Models\SettingItem;
 use App\Models\User;
 
-class SettingPolicy
+class SettingItemPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->checkPermissionTo('view-any Setting');
+        return $user->checkPermissionTo('view-any SettingItem');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Setting $configgroup): bool
+    public function view(User $user, SettingItem $settingitem): bool
     {
-        return $user->checkPermissionTo('view Setting');
+        return $user->checkPermissionTo('view SettingItem');
     }
 
     /**
@@ -29,23 +29,23 @@ class SettingPolicy
      */
     public function create(User $user): bool
     {
-        return $user->checkPermissionTo('create Setting');
+        return $user->checkPermissionTo('create SettingItem');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Setting $configgroup): bool
+    public function update(User $user, SettingItem $settingitem): bool
     {
-        return $user->checkPermissionTo('update Setting');
+        return $user->checkPermissionTo('update SettingItem');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Setting $configgroup): bool
+    public function delete(User $user, SettingItem $settingitem): bool
     {
-        return $user->checkPermissionTo('delete Setting');
+        return $user->checkPermissionTo('delete SettingItem');
     }
 
     /**
@@ -53,15 +53,15 @@ class SettingPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->checkPermissionTo('delete-any Setting');
+        return $user->checkPermissionTo('delete-any SettingItem');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Setting $configgroup): bool
+    public function restore(User $user, SettingItem $settingitem): bool
     {
-        return $user->checkPermissionTo('restore Setting');
+        return $user->checkPermissionTo('restore SettingItem');
     }
 
     /**
@@ -69,15 +69,15 @@ class SettingPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->checkPermissionTo('restore-any Setting');
+        return $user->checkPermissionTo('restore-any SettingItem');
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(User $user, Setting $configgroup): bool
+    public function replicate(User $user, SettingItem $settingitem): bool
     {
-        return $user->checkPermissionTo('replicate Setting');
+        return $user->checkPermissionTo('replicate SettingItem');
     }
 
     /**
@@ -85,15 +85,15 @@ class SettingPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->checkPermissionTo('reorder Setting');
+        return $user->checkPermissionTo('reorder SettingItem');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Setting $configgroup): bool
+    public function forceDelete(User $user, SettingItem $settingitem): bool
     {
-        return $user->checkPermissionTo('force-delete Setting');
+        return $user->checkPermissionTo('force-delete SettingItem');
     }
 
     /**
@@ -101,6 +101,6 @@ class SettingPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->checkPermissionTo('force-delete-any Setting');
+        return $user->checkPermissionTo('force-delete-any SettingItem');
     }
 }

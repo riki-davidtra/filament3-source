@@ -24,6 +24,7 @@ use Filament\Navigation\MenuItem;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -44,8 +45,8 @@ class AdminPanelProvider extends PanelProvider
                 // 'success' => Color::Green,
                 // 'warning' => Color::Amber,
             ])
-            ->brandName(App::make('configItems')['site_name']->value ?? 'Site Name')
-            ->favicon(App::make('configItems')['favicon']->value ?? asset('/assets/images/favicon.png'))
+            ->brandName(App::make('settingItems')['site_name']->value ?? 'Site Name')
+            ->favicon(App::make('settingItems')['favicon']->value_file ? Storage::url(App::make('settingItems')['favicon']->value_file) : asset('/assets/images/favicon.png'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
