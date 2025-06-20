@@ -14,14 +14,14 @@ class Settings extends Page implements Forms\Contracts\HasForms
 {
     use WithFileUploads, Forms\Concerns\InteractsWithForms;
 
-    protected static ?string $navigationIcon  = 'heroicon-o-cog';
-    protected static string $view             = 'filament.pages.settings';
+    protected static ?string $navigationIcon = 'heroicon-o-cog';
+    protected static string $view            = 'filament.pages.settings';
     // protected static ?string $navigationGroup = 'Manajemen Pengaturan';
     protected static ?string $title           = 'Pengaturan';
     protected static ?string $navigationLabel = 'Pengaturan';
     protected static ?int $navigationSort     = 101;
 
-    public $configGroups;
+    public $settings;
     public $items = [];
     public $files = [];
 
@@ -32,10 +32,10 @@ class Settings extends Page implements Forms\Contracts\HasForms
 
     public function mount(): void
     {
-        $this->configGroups = Setting::with('settingItems')->orderBy('order')->get();
+        $this->settings = Setting::with('settingItems')->orderBy('order')->get();
 
-        foreach ($this->configGroups as $group) {
-            foreach ($group->settingItems as $item) {
+        foreach ($this->settings as $setting) {
+            foreach ($setting->settingItems as $item) {
                 $this->items[$item->id] = $item->value;
 
                 if ($item->type === 'file' && $item->value_file) {
@@ -53,10 +53,10 @@ class Settings extends Page implements Forms\Contracts\HasForms
     {
         $schema = [];
 
-        foreach ($this->configGroups as $group) {
-            $groupFields = [];
+        foreach ($this->settings as $setting) {
+            $settingFields = [];
 
-            foreach ($group->settingItems as $item) {
+            foreach ($setting->settingItems as $item) {
                 $id    = $item->id;
                 $label = $item->name;
 
@@ -97,7 +97,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
                         $field = Forms\Components\FileUpload::make("files.$id")
                             ->label($label)
                             ->disk('public')
-                            ->directory('configs')
+                            ->directory('settings')
                             ->openable()
                             ->maxSize(2048)
                             ->deleteUploadedFileUsing(function ($file) use ($id) {
@@ -113,12 +113,12 @@ class Settings extends Page implements Forms\Contracts\HasForms
                         continue 2;
                 }
 
-                $groupFields[] = $field;
+                $settingFields[] = $field;
             }
 
-            if (!empty($groupFields)) {
-                $schema[] = Forms\Components\Section::make($group->name)
-                    ->schema($groupFields);
+            if (!empty($settingFields)) {
+                $schema[] = Forms\Components\Section::make($setting->name)
+                    ->schema($settingFields);
             }
         }
 
@@ -129,8 +129,8 @@ class Settings extends Page implements Forms\Contracts\HasForms
     {
         $data = $this->form->getState();
 
-        foreach ($this->configGroups as $group) {
-            foreach ($group->settingItems as $item) {
+        foreach ($this->settings as $setting) {
+            foreach ($setting->settingItems as $item) {
                 $itemId = $item->id;
 
                 if (in_array($item->type, ['text', 'textarea', 'textarea_editor', 'url', 'number', 'email', 'color'])) {
