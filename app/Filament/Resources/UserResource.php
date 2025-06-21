@@ -72,7 +72,8 @@ class UserResource extends Resource
                             ->string()
                             ->minLength(6)
                             ->dehydrated(fn($state) => !empty($state))
-                            ->confirmed(),
+                            ->confirmed()
+                            ->autocomplete('new-password'),
                         \Filament\Forms\Components\TextInput::make('password_confirmation')
                             ->label('Confirm Password')
                             ->password()
