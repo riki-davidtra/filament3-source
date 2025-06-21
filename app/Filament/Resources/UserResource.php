@@ -71,15 +71,17 @@ class UserResource extends Resource
                             ->required(fn(string $context): bool => $context === 'create')
                             ->string()
                             ->minLength(6)
-                            ->dehydrated(fn($state) => !empty($state))
                             ->confirmed()
-                            ->autocomplete('new-password'),
+                            ->revealable()
+                            ->autocomplete('new-password')
+                            ->dehydrated(fn($state) => !empty($state)),
                         \Filament\Forms\Components\TextInput::make('password_confirmation')
                             ->label('Confirm Password')
                             ->password()
                             ->required(fn(string $context): bool => $context === 'create')
                             ->string()
                             ->minLength(6)
+                            ->revealable()
                             ->dehydrated(fn($state) => !empty($state)),
                         \Filament\Forms\Components\Select::make('roles')
                             ->label('Roles')
