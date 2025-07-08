@@ -20,10 +20,10 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon   = 'heroicon-o-users';
-    protected static ?string $navigationGroup  = 'Manajemen Pengguna';
-    protected static ?string $navigationLabel  = 'Pengguna';
-    protected static ?string $pluralModelLabel = 'Daftar Pengguna';
-    protected static ?string $modelLabel       = 'Pengguna';
+    protected static ?string $navigationGroup  = 'User Management';
+    protected static ?string $navigationLabel  = 'Users';
+    protected static ?string $pluralModelLabel = 'Users';
+    protected static ?string $modelLabel       = 'User';
     protected static ?int $navigationSort      = 11;
 
     public static function form(Form $form): Form
@@ -31,7 +31,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 \Filament\Forms\Components\FileUpload::make('avatar_url')
-                    ->label('Foto')
+                    ->label('Avatar')
                     ->nullable()
                     ->image()
                     ->directory('avatars')
@@ -48,7 +48,7 @@ class UserResource extends Resource
                 \Filament\Forms\Components\Grid::make(2)
                     ->schema([
                         \Filament\Forms\Components\TextInput::make('name')
-                            ->label('Nama')
+                            ->label('Name')
                             ->required()
                             ->string()
                             ->maxLength(255),
@@ -100,7 +100,7 @@ class UserResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->columns([
                 \Filament\Tables\Columns\TextColumn::make('name')
-                    ->label('Nama')
+                    ->label('Name')
                     ->sortable()
                     ->searchable(),
                 \Filament\Tables\Columns\TextColumn::make('username')
@@ -112,13 +112,13 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable(),
                 \Filament\Tables\Columns\ImageColumn::make('avatar_url')
-                    ->label('Foto')
+                    ->label('Avatar')
                     ->sortable()
                     ->searchable()
                     ->width(50)
                     ->height(50),
                 \Filament\Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat')
+                    ->label('Created At')
                     ->sortable()
                     ->searchable()
                     ->dateTime()
@@ -126,7 +126,7 @@ class UserResource extends Resource
                     ->dateTimeTooltip()
                     ->toggleable(isToggledHiddenByDefault: true),
                 \Filament\Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Diperbarui')
+                    ->label('Updated At')
                     ->sortable()
                     ->searchable()
                     ->dateTime()

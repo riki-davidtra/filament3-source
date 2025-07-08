@@ -16,9 +16,6 @@ class Settings extends Page implements Forms\Contracts\HasForms
 
     protected static ?string $navigationIcon = 'heroicon-o-cog';
     protected static string $view            = 'filament.pages.settings';
-    // protected static ?string $navigationGroup = 'Manajemen Pengaturan';
-    protected static ?string $title           = 'Pengaturan';
-    protected static ?string $navigationLabel = 'Pengaturan';
     protected static ?int $navigationSort     = 101;
 
     public $settings;
@@ -147,7 +144,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
 
         Notification::make()
             ->title('Succeed')
-            ->body('Pengaturan berhasil diperbarui.')
+            ->body('Settings updated successfully.')
             ->success()
             ->send();
     }
