@@ -99,6 +99,12 @@ class UserResource extends Resource
         return $table
             ->defaultSort('created_at', 'desc')
             ->columns([
+                \Filament\Tables\Columns\ImageColumn::make('avatar_url')
+                    ->label('Avatar')
+                    ->sortable()
+                    ->searchable()
+                    ->width(50)
+                    ->height(50),
                 \Filament\Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->sortable()
@@ -111,12 +117,11 @@ class UserResource extends Resource
                     ->label('Email')
                     ->sortable()
                     ->searchable(),
-                \Filament\Tables\Columns\ImageColumn::make('avatar_url')
-                    ->label('Avatar')
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Roles')
                     ->sortable()
                     ->searchable()
-                    ->width(50)
-                    ->height(50),
+                    ->badge(),
                 \Filament\Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
                     ->sortable()
