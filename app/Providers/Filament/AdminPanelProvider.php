@@ -81,8 +81,8 @@ class AdminPanelProvider extends PanelProvider
             ->resources([\App\Filament\Resources\RoleResource::class, \App\Filament\Resources\PermissionResource::class])
             ->plugins([
                 FilamentEditProfilePlugin::make()
-                    ->setNavigationLabel('Profil Saya')
-                    ->setTitle('Profil Saya')
+                    ->setNavigationLabel('My Profile')
+                    ->setTitle('My Profile')
                     ->setIcon('heroicon-o-user')
                     // ->slug('my-profile')
                     ->shouldShowAvatarForm(value: true, directory: 'avatars', rules: 'mimes:jpeg,png|max:2048')
