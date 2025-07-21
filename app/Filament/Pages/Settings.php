@@ -20,7 +20,6 @@ class Settings extends Page implements Forms\Contracts\HasForms
 
     public $settings;
     public $items = [];
-    public $files = [];
 
     public static function canAccess(): bool
     {
@@ -34,10 +33,6 @@ class Settings extends Page implements Forms\Contracts\HasForms
         foreach ($this->settings as $setting) {
             foreach ($setting->settingItems as $item) {
                 $this->items[$item->id] = $item->value;
-
-                if ($item->type === 'file' && $item->value_file) {
-                    $this->files[$item->id] = $item->value_file;
-                }
             }
         }
 
@@ -91,7 +86,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
                             ->label($label);
                         break;
                     case 'file':
-                        $field = Forms\Components\FileUpload::make("files.$id")
+                        $field = Forms\Components\FileUpload::make("items.$id")
                             ->label($label)
                             ->disk('public')
                             ->directory('settings')
@@ -101,7 +96,7 @@ class Settings extends Page implements Forms\Contracts\HasForms
                                 Storage::disk('public')->delete($file);
                                 $item = \App\Models\SettingItem::find($id);
                                 if ($item) {
-                                    $item->value_file = null;
+                                    $item->value = null;
                                     $item->save();
                                 }
                             });
@@ -130,12 +125,8 @@ class Settings extends Page implements Forms\Contracts\HasForms
             foreach ($setting->settingItems as $item) {
                 $itemId = $item->id;
 
-                if (in_array($item->type, ['text', 'textarea', 'textarea_editor', 'url', 'number', 'email', 'color'])) {
+                if (in_array($item->type, ['text', 'textarea', 'textarea_editor', 'url', 'number', 'email', 'color', 'file'])) {
                     $item->value = $data['items'][$itemId] ?? null;
-                }
-
-                if ($item->type === 'file' && isset($data['files'][$itemId])) {
-                    $item->value_file = $data['files'][$itemId];
                 }
 
                 $item->save();

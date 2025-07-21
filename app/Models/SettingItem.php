@@ -19,7 +19,6 @@ class SettingItem extends Model
         'key',
         'type',
         'value',
-        'value_file',
     ];
 
     public $incrementing = true;

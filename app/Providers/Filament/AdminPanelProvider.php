@@ -47,8 +47,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->brandName(App::make('settingItems')['site_name']->value ?? 'Site Name')
             ->favicon(
-                data_get(App::make('settingItems'), 'favicon.value_file')
-                    ? Storage::url(data_get(App::make('settingItems'), 'favicon.value_file'))
+                data_get(App::make('settingItems'), 'favicon.value')
+                    ? Storage::url(data_get(App::make('settingItems'), 'favicon.value'))
                     : asset('/assets/images/favicon.png')
             )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

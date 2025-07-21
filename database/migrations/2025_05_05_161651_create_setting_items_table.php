@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('key');
             $table->string('type');
             $table->text('value')->nullable();
-            $table->text('value_file')->nullable();
             $table->timestamps();
         });
     }

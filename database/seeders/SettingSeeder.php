@@ -22,64 +22,64 @@ class SettingSeeder extends Seeder
         $settingItems = [
             [
                 'setting_id' => $settings['siteConfig']->uuid,
-                'name'            => 'Site Name',
-                'key'             => 'site_name',
-                'type'            => 'text',
-                'value'           => 'SITE NAME',
+                'name'       => 'Site Name',
+                'key'        => 'site_name',
+                'type'       => 'text',
+                'value'      => 'SITE NAME',
             ],
             [
                 'setting_id' => $settings['siteConfig']->uuid,
-                'name'            => 'Website URL',
-                'key'             => 'website_url',
-                'type'            => 'url',
-                'value'           => 'http://127.0.0.1:8000/',
+                'name'       => 'Website URL',
+                'key'        => 'website_url',
+                'type'       => 'url',
+                'value'      => 'http://127.0.0.1:8000/',
             ],
             [
                 'setting_id' => $settings['siteConfig']->uuid,
-                'name'            => 'Logo',
-                'key'             => 'logo',
-                'type'            => 'file',
-                'value_file'      => null,
+                'name'       => 'Logo',
+                'key'        => 'logo',
+                'type'       => 'file',
+                'value'      => null,
             ],
             [
                 'setting_id' => $settings['siteConfig']->uuid,
-                'name'            => 'Favicon',
-                'key'             => 'favicon',
-                'type'            => 'file',
-                'value_file'      => null,
+                'name'       => 'Favicon',
+                'key'        => 'favicon',
+                'type'       => 'file',
+                'value'      => null,
             ],
             [
                 'setting_id' => $settings['siteConfig']->uuid,
-                'name'            => 'Meta',
-                'key'             => 'meta',
-                'type'            => 'textarea',
-                'value'           => '<meta name="description" content="" />
-    <meta property="og:title" content="SITE NAME" />
-    <meta property="og:description" content="" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://example.com" />
-    <meta property="og:image" content="" />',
+                'name'       => 'Meta',
+                'key'        => 'meta',
+                'type'       => 'textarea',
+                'value'      => '<meta name="description" content="" />
+    <meta property = "og:title" content       = "SITE NAME" />
+    <meta property = "og:description" content = "" />
+    <meta property = "og:type" content        = "website" />
+    <meta property = "og:url" content         = "https://example.com" />
+    <meta property = "og:image" content       = "" />',
             ],
             [
                 'setting_id' => $settings['contact']->uuid,
-                'name'            => 'Address',
-                'key'             => 'address',
-                'type'            => 'text',
-                'value'           => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, voluptas!',
+                'name'       => 'Address',
+                'key'        => 'address',
+                'type'       => 'text',
+                'value'      => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, voluptas!',
             ],
             [
                 'setting_id' => $settings['contact']->uuid,
-                'name'            => 'Email',
-                'key'             => 'email',
-                'type'            => 'email',
-                'value'           => 'example@email.com',
+                'name'       => 'Email',
+                'key'        => 'email',
+                'type'       => 'email',
+                'value'      => 'example@email.com',
             ],
             [
                 'setting_id' => $settings['contact']->uuid,
-                'name'            => 'Phone Number',
-                'key'             => 'phone_number',
-                'type'            => 'number',
-                'value'           => '0899999999999',
+                'name'       => 'Phone Number',
+                'key'        => 'phone_number',
+                'type'       => 'number',
+                'value'      => '0899999999999',
             ],
         ];
         foreach ($settingItems as $settingItem) {
