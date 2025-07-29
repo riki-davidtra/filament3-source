@@ -38,13 +38,7 @@ class UserResource extends Resource
                     ->directory('avatars')
                     ->enableOpen()
                     // ->enableDownload()
-                    ->maxSize(2048)
-                    ->deleteUploadedFileUsing(function ($file, $record) {
-                        Storage::disk('public')->delete($file);
-                        $record->update([
-                            'avatar_url' => null,
-                        ]);
-                    }),
+                    ->maxSize(2048),
                 \Filament\Forms\Components\Grid::make(2)
                     ->schema([
                         \Filament\Forms\Components\TextInput::make('name')

@@ -23,5 +23,7 @@ class AppServiceProvider extends ServiceProvider
         if (!app()->environment('local')) {
             URL::forceScheme('https');
         }
+
+        \App\Models\User::observe(\App\Observers\UserObserver::class);
     }
 }

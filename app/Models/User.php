@@ -80,42 +80,4 @@ class User extends Authenticatable implements HasAvatar
 
         return $this->avatar_url ? Storage::url("$this->avatar_url") : null;
     }
-
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            if (empty($model->username) && !empty($model->email)) {
-                $model->username = strstr($model->email, '@', true);
-            }
-        });
-
-        static::updating(function ($model) {
-            if ($model->isDirty('avatar_url')) {
-                $oriPathOld = $model->getOriginal('avatar_url');
-                $thumbPathOld = 'thumbs/' . $oriPathOld;
-                $oriPathNew = $model->avatar_url;
-                if ($oriPathOld && $oriPathOld !== $oriPathNew) {
-                    if (Storage::disk('public')->exists($oriPathOld)) {
-                        Storage::disk('public')->delete($oriPathOld);
-                    }
-                    if (Storage::disk('public')->exists($thumbPathOld)) {
-                        Storage::disk('public')->delete($thumbPathOld);
-                    }
-                }
-            }
-        });
-
-        static::deleting(function ($model) {
-            if ($model->avatar_url) {
-                $oriPath = $model->avatar_url;
-                $thumbPath = 'thumbs/' . $oriPath;
-                if (Storage::disk('public')->exists($oriPath)) {
-                    Storage::disk('public')->delete($oriPath);
-                }
-                if (Storage::disk('public')->exists($thumbPath)) {
-                    Storage::disk('public')->delete($thumbPath);
-                }
-            }
-        });
-    }
 }
