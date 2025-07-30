@@ -15,7 +15,6 @@ class Setting extends Model
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
-        'uuid',
         'name',
         'order',
     ];
