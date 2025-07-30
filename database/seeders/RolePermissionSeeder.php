@@ -21,25 +21,12 @@ class RolePermissionSeeder extends Seeder
         $RoleUser       = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
 
         // get permissions
-        $permissions = Permission::pluck('name')->toArray();
+        $permissions     = Permission::pluck('name')->toArray();
         $userPermissions = [
-            'view-any FornasEvent',
-            'view FornasEvent',
-
-            'view-any FornasRegistration',
-            'view FornasRegistration',
-            'create FornasRegistration',
-            'update FornasRegistration',
-
-            'view-any FornasParticipant',
-            'view FornasParticipant',
-            'create FornasParticipant',
-            'update FornasParticipant',
-
-            'view-any FornasParticipantFile',
-            'view FornasParticipantFile',
-            'create FornasParticipantFile',
-            'update FornasParticipantFile',
+            'view-any Model',
+            'view Model',
+            'create Model',
+            'update Model',
         ];
         foreach ($userPermissions as $permission) {
             Permission::firstOrCreate([
