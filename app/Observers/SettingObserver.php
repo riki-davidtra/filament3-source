@@ -12,9 +12,4 @@ class SettingObserver
             $setting->order = Setting::max('order') + 1;
         }
     }
-
-    public function deleting(Setting $setting): void
-    {
-        $setting->settingItems()->delete();
-    }
 }
