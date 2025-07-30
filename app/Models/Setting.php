@@ -12,6 +12,8 @@ class Setting extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $primaryKey = 'uuid';
+
     protected $fillable = [
         'uuid',
         'name',
@@ -30,37 +32,8 @@ class Setting extends Model
         return (string) Uuid::uuid7();
     }
 
-    public function getRouteKeyName()
-    {
-        return 'uuid';
-    }
-
     public function settingItems()
     {
-        return $this->hasMany(SettingItem::class, 'setting_id', 'uuid');
-    }
-
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            if (!$model->order) {
-                $model->order = Setting::max('order') + 1;
-            }
-        });
-
-        static::deleting(function ($model) {
-            foreach ($model->settingItems as $item) {
-                if ($item->value) {
-                    $oriPath = $item->value;
-                    $thumbPath = 'thumbs/' . $oriPath;
-                    if (Storage::disk('public')->exists($oriPath)) {
-                        Storage::disk('public')->delete($oriPath);
-                    }
-                    if (Storage::disk('public')->exists($thumbPath)) {
-                        Storage::disk('public')->delete($thumbPath);
-                    }
-                }
-            }
-        });
+        return $this->hasMany(SettingItem::class);
     }
 }

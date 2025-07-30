@@ -89,17 +89,9 @@ class Settings extends Page implements Forms\Contracts\HasForms
                         $field = Forms\Components\FileUpload::make("items.$id")
                             ->label($label)
                             ->disk('public')
-                            ->directory('settings')
+                            ->directory('setting-items')
                             ->openable()
-                            ->maxSize(2048)
-                            ->deleteUploadedFileUsing(function ($file) use ($id) {
-                                Storage::disk('public')->delete($file);
-                                $item = \App\Models\SettingItem::find($id);
-                                if ($item) {
-                                    $item->value = null;
-                                    $item->save();
-                                }
-                            });
+                            ->maxSize(2048);
                         break;
                     default:
                         continue 2;

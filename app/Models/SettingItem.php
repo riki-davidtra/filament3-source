@@ -12,6 +12,8 @@ class SettingItem extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $primaryKey = 'uuid';
+
     protected $fillable = [
         'uuid',
         'setting_id',
@@ -33,46 +35,9 @@ class SettingItem extends Model
         return (string) Uuid::uuid7();
     }
 
-    public function getRouteKeyName()
-    {
-        return 'uuid';
-    }
-
     public function setting()
     {
-        return $this->belongsTo(Setting::class, 'setting_id', 'uuid');
-    }
-
-    protected static function booted()
-    {
-        static::updating(function ($model) {
-            if ($model->isDirty('value')) {
-                $oriPathOld = $model->getOriginal('value');
-                $thumbPathOld = 'thumbs/' . $oriPathOld;
-                $oriPathNew = $model->value;
-                if ($oriPathOld && $oriPathOld !== $oriPathNew && self::isPathFile($oriPathOld)) {
-                    if (Storage::disk('public')->exists($oriPathOld)) {
-                        Storage::disk('public')->delete($oriPathOld);
-                    }
-                    if (Storage::disk('public')->exists($thumbPathOld)) {
-                        Storage::disk('public')->delete($thumbPathOld);
-                    }
-                }
-            }
-        });
-
-        static::deleting(function ($model) {
-            if ($model->value) {
-                $oriPath = $model->value;
-                $thumbPath = 'thumbs/' . $oriPath;
-                if (Storage::disk('public')->exists($oriPath)) {
-                    Storage::disk('public')->delete($oriPath);
-                }
-                if (Storage::disk('public')->exists($thumbPath)) {
-                    Storage::disk('public')->delete($thumbPath);
-                }
-            }
-        });
+        return $this->belongsTo(Setting::class);
     }
 
     protected static function isPathFile($path): bool

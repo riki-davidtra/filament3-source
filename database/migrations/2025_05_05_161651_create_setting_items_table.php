@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('setting_items', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->foreignUuid('setting_id')->references('uuid')->on('settings')->cascadeOnDelete();
+            $table->foreignUuid('setting_uuid')->references('uuid')->on('settings')->restrictOnDelete();
             $table->string('name');
             $table->string('key');
             $table->string('type');
