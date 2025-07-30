@@ -20,8 +20,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        if (!config('seeder.skip_user')) {
+            $this->call(UserSeeder::class);
+        }
+
         $this->call([
-            UserSeeder::class,
             SyncPermissionsSeeder::class,
             RolePermissionSeeder::class,
             SettingSeeder::class,
