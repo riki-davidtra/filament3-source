@@ -12,7 +12,7 @@
                 {!! $info !!}
             </p>
 
-            <form method="POST" action="{{ route('create-password.update') }}">
+            <form method="POST" action="{{ route('auth.create-password.update') }}">
                 @csrf
 
                 <div class="mb-4">
@@ -34,7 +34,7 @@
                 <button type="submit" class="cursor-pointer w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200">
                     Save Password
                 </button>
-                <a href="{{ route('create-password.skip') }}" class="mt-4 block text-center cursor-pointer w-full bg-slate-400 text-white py-2 rounded-lg hover:bg-slate-500 transition duration-200">Skip it</a>
+                <a href="{{ route('auth.create-password.skip') }}" class="mt-4 block text-center cursor-pointer w-full bg-slate-400 text-white py-2 rounded-lg hover:bg-slate-500 transition duration-200">Skip it</a>
             </form>
         </div>
     </div>

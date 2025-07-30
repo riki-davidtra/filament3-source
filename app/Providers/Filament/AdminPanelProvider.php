@@ -105,7 +105,7 @@ class AdminPanelProvider extends PanelProvider
                 //     return auth()->user()->company()->exists();
                 // })
             ])
-            ->renderHook('panels::auth.login.form.after', fn() => view('auth.socialite.google'))
+            ->renderHook('panels::auth.login.form.after', fn() => view('auth.google-sign-in-button'))
             ->theme(asset('css/filament/admin/theme.css'));
     }
 }

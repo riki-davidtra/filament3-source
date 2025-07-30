@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 
-class SocialiteController extends Controller
+class AuthController extends Controller
 {
     use ValidatesRequests;
 
@@ -38,7 +38,7 @@ class SocialiteController extends Controller
             $user->assignRole('user');
 
             session(['pending_user_id' => $user->id]);
-            return redirect()->route('create-password');
+            return redirect()->route('auth.create-password');
         }
 
         $user->update([$provider . '_id' => $response->getId()]);
