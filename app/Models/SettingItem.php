@@ -16,7 +16,7 @@ class SettingItem extends Model
 
     protected $fillable = [
         'uuid',
-        'setting_id',
+        'setting_uuid',
         'name',
         'key',
         'type',
