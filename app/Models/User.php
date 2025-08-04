@@ -56,8 +56,6 @@ class User extends Authenticatable implements HasAvatar
         ];
     }
 
-    public $incrementing = true;
-
     public function uniqueIds(): array
     {
         return ['uuid'];

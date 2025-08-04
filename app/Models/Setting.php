@@ -17,8 +17,6 @@ class Setting extends Model
         'order',
     ];
 
-    public $incrementing = true;
-
     public function uniqueIds(): array
     {
         return ['uuid'];

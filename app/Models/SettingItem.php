@@ -20,8 +20,6 @@ class SettingItem extends Model
         'value',
     ];
 
-    public $incrementing = true;
-
     public function uniqueIds(): array
     {
         return ['uuid'];
