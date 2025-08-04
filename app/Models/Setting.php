@@ -12,8 +12,6 @@ class Setting extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $primaryKey = 'uuid';
-
     protected $fillable = [
         'name',
         'order',
@@ -29,6 +27,11 @@ class Setting extends Model
     public function newUniqueId(): string
     {
         return (string) Uuid::uuid7();
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 
     public function settingItems()
