@@ -10,16 +10,38 @@ use Illuminate\Support\Facades\Artisan;
 class MigrateFreshPartial extends Command
 {
     protected $signature   = 'migrate:fresh-partial {--seed : Run seeders after migration}';
-    protected $description = 'Drop all tables except users and sessions, skip users-related migrations, and optionally run seeders (except UserSeeder)';
+    protected $description = 'Drop all tables except some, skip specific migrations and seeders';
 
     public function handle()
     {
-        // Run dropping tables
-        $this->info('Dropping database (excluding users and sessions)...');
-        $exceptTables = ['users', 'sessions', 'migrations'];
-        $connection   = DB::connection();
-        $driver       = $connection->getDriverName();
+        $skipDrop     = [
+            'users',
+            'sessions',
+            'migrations',
+            'permissions',
+            'roles',
+            'model_has_permissions',
+            'model_has_roles',
+            'role_has_permissions',
+        ];
+        $skipSeeders    = [
+            'UserSeeder',
+            'SyncPermissionsSeeder',
+            'RolePermissionSeeder',
+        ];
 
+        // DROPPING
+        $this->newLine();
+        $this->line(str_repeat('=', 50));
+        $this->info('DROPPING');
+        $this->line(str_repeat('=', 50));
+
+        foreach ($skipDrop as $table) {
+            $this->warn("  Skipped drop: $table");
+        }
+
+        $connection = DB::connection();
+        $driver     = $connection->getDriverName();
         if ($driver === 'sqlite') {
             $tables = DB::select("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");
             $tables = array_map(fn($table) => $table->name, $tables);
@@ -40,9 +62,9 @@ class MigrateFreshPartial extends Command
 
         Schema::disableForeignKeyConstraints();
         foreach ($tables as $table) {
-            if (!in_array($table, $exceptTables)) {
+            if (!in_array($table, $skipDrop)) {
                 Schema::drop($table);
-                $this->line("Dropped table: $table");
+                $this->line("  Dropped: $table");
             }
         }
         Schema::enableForeignKeyConstraints();
@@ -51,33 +73,53 @@ class MigrateFreshPartial extends Command
             DB::table('migrations')->truncate();
         }
 
-        // Run migration tables
-        $this->info('Skipping user-related migrations...');
-        $migrationPath  = database_path('migrations');
-        $migrationFiles = glob($migrationPath . '/*.php');
-        foreach ($migrationFiles as $file) {
-            $contents      = file_get_contents($file);
-            $migrationName = basename($file, '.php');
+        // MIGRATING
+        $this->newLine();
+        $this->line(str_repeat('=', 50));
+        $this->info('MIGRATING');
+        $this->line(str_repeat('=', 50));
 
-            if (preg_match("/Schema\s*::\s*(create|table)\s*\(\s*['\"]users['\"]/", $contents)) {
-                DB::table('migrations')->insert([
-                    'migration' => $migrationName,
-                    'batch'     => 1,
+        $migrationFiles = glob(database_path('migrations/*.php'));
+        sort($migrationFiles);
+
+        foreach ($migrationFiles as $file) {
+            $filename = pathinfo($file, PATHINFO_FILENAME);
+
+            $exists = DB::table('migrations')->where('migration', $filename)->exists();
+            if ($exists) {
+                $this->warn("  Skipped migration (already applied): $filename");
+                continue;
+            }
+
+            try {
+                Artisan::call('migrate', [
+                    '--path' => 'database/migrations/' . basename($file),
                 ]);
-                $this->line("Skipped & marked as migrated (users): $migrationName");
+                $this->info("  Migrated: $filename");
+            } catch (\Throwable $e) {
+                $this->warn("  Skipped migration (error): $filename");
+                DB::table('migrations')->insert([
+                    'migration' => $filename,
+                    'batch' => 1,
+                ]);
             }
         }
 
-        $this->info('Running remaining migrations...');
-        Artisan::call('migrate', [], $this->getOutput());
-
-        // Run seeder 
+        // SEEDING
         if ($this->option('seed')) {
-            $this->info('Running seeders (excluding UserSeeder)...');
-            config(['seeder.skip_user' => true]);
+            $this->newLine();
+            $this->line(str_repeat('=', 50));
+            $this->info('SEEDING');
+            $this->line(str_repeat('=', 50));
+
+            foreach ($skipSeeders as $seeder) {
+                $this->warn("  Skipped seed: $seeder");
+                config(["seeder.skip.{$seeder}" => true]);
+            }
             Artisan::call('db:seed', [], $this->getOutput());
         }
 
+        $this->newLine();
         $this->info('✅ All done.');
         return 0;
     }
