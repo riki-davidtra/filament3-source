@@ -18,6 +18,7 @@ class MigrateFreshPartial extends Command
             'users',
             'sessions',
             'migrations',
+            'password_reset_tokens',
             'permissions',
             'roles',
             'model_has_permissions',
