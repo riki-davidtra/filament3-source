@@ -95,43 +95,43 @@ class UserResource extends Resource
             ->columns([
                 \Filament\Tables\Columns\ImageColumn::make('avatar_url')
                     ->label('Avatar')
-                    ->sortable()
-                    ->searchable()
                     ->width(50)
-                    ->height(50),
+                    ->height(50)
+                    ->searchable()
+                    ->sortable(),
                 \Filament\Tables\Columns\TextColumn::make('name')
                     ->label('Name')
-                    ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 \Filament\Tables\Columns\TextColumn::make('username')
                     ->label('Username')
-                    ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 \Filament\Tables\Columns\TextColumn::make('email')
                     ->label('Email')
-                    ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->label('Roles')
-                    ->sortable()
+                    ->badge()
                     ->searchable()
-                    ->badge(),
+                    ->sortable(),
                 \Filament\Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
-                    ->sortable()
-                    ->searchable()
                     ->dateTime()
                     ->since()
                     ->dateTimeTooltip()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->searchable()
+                    ->sortable(),
                 \Filament\Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated At')
-                    ->sortable()
-                    ->searchable()
                     ->dateTime()
                     ->since()
                     ->dateTimeTooltip()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
