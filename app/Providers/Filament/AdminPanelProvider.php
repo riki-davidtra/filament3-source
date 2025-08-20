@@ -45,12 +45,12 @@ class AdminPanelProvider extends PanelProvider
                 // 'success' => Color::Green,
                 // 'warning' => Color::Amber,
             ])
-            ->brandName(App::make('settingItems')['site_name']->value ?? 'Site Name')
-            ->favicon(
-                data_get(App::make('settingItems'), 'favicon.value')
-                    ? Storage::url(data_get(App::make('settingItems'), 'favicon.value'))
-                    : asset('/assets/images/favicon.png')
-            )
+            ->brandName(function () {
+                return App::make('settingItems')['site_name']->value ?? 'Site Name';
+            })
+            ->favicon(function () {
+                return App::make('settingItems')['favicon']->value ?? asset('/assets/images/favicon.png');
+            })
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
