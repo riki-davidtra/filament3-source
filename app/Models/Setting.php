@@ -6,14 +6,13 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Setting extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'uuid', 
+        'uuid',
         'name',
         'order',
     ];
