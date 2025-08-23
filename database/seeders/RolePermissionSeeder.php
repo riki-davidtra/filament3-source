@@ -39,18 +39,5 @@ class RolePermissionSeeder extends Seeder
         $RoleSuperAdmin->syncPermissions($permissions);
         $RoleAdmin->syncPermissions($permissions);
         $RoleUser->syncPermissions($userPermissions);
-
-        // set role for users
-        $roles = [
-            'superadmin' => 'Super Admin',
-            'admin'      => 'admin',
-            'user'       => 'user',
-        ];
-        foreach ($roles as $username => $role) {
-            $user = User::where('username', $username)->first();
-            if ($user) {
-                $user->assignRole($role);
-            }
-        }
     }
 }
