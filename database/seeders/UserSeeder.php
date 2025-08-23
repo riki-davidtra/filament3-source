@@ -15,13 +15,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['username' => 'superadmin', 'name' => 'Superadmin', 'role' => 'Super Admin'],
-            ['username' => 'admin', 'name' => 'Admin', 'role' => 'admin'],
-            ['username' => 'user', 'name' => 'User', 'role' => 'user'],
+            ['username' => 'superadmin', 'name' => 'Superadmin'],
+            ['username' => 'admin', 'name' => 'Admin'],
+            ['username' => 'user', 'name' => 'User'],
         ];
 
         foreach ($data as $item) {
-            $user = User::updateOrCreate(
+            User::updateOrCreate(
                 ['username' => $item['username']],
                 [
                     'name'     => $item['name'],
@@ -30,10 +30,6 @@ class UserSeeder extends Seeder
                     'password' => bcrypt('password'),
                 ]
             );
-
-            if (! empty($item['role'])) {
-                $user->assignRole($item['role']);
-            }
         }
     }
 }
