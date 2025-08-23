@@ -30,7 +30,7 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                \Filament\Forms\Components\FileUpload::make('avatar_url')
+                Forms\Components\FileUpload::make('avatar_url')
                     ->label('Avatar')
                     ->nullable()
                     ->image()
@@ -39,27 +39,27 @@ class UserResource extends Resource
                     ->enableOpen()
                     // ->enableDownload()
                     ->maxSize(2048),
-                \Filament\Forms\Components\Grid::make(2)
+                Forms\Components\Grid::make(2)
                     ->schema([
-                        \Filament\Forms\Components\TextInput::make('name')
+                        Forms\Components\TextInput::make('name')
                             ->label('Name')
                             ->required()
                             ->string()
                             ->maxLength(255),
-                        \Filament\Forms\Components\TextInput::make('username')
+                        Forms\Components\TextInput::make('username')
                             ->label('Username')
                             ->required()
                             ->string()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
-                        \Filament\Forms\Components\TextInput::make('email')
+                        Forms\Components\TextInput::make('email')
                             ->label('Email')
                             ->required()
                             ->string()
                             ->maxLength(255)
                             ->email()
                             ->unique(ignoreRecord: true),
-                        \Filament\Forms\Components\TextInput::make('password')
+                        Forms\Components\TextInput::make('password')
                             ->label('Password')
                             ->password()
                             ->required(fn(string $context): bool => $context === 'create')
@@ -69,7 +69,7 @@ class UserResource extends Resource
                             ->revealable()
                             ->autocomplete('new-password')
                             ->dehydrated(fn($state) => !empty($state)),
-                        \Filament\Forms\Components\TextInput::make('password_confirmation')
+                        Forms\Components\TextInput::make('password_confirmation')
                             ->label('Confirm Password')
                             ->password()
                             ->required(fn(string $context): bool => $context === 'create')
@@ -77,7 +77,7 @@ class UserResource extends Resource
                             ->minLength(6)
                             ->revealable()
                             ->dehydrated(fn($state) => !empty($state)),
-                        \Filament\Forms\Components\Select::make('roles')
+                        Forms\Components\Select::make('roles')
                             ->label('Roles')
                             ->nullable()
                             ->multiple()
@@ -93,21 +93,21 @@ class UserResource extends Resource
         return $table
             ->defaultSort('created_at', 'desc')
             ->columns([
-                \Filament\Tables\Columns\ImageColumn::make('avatar_url')
+                Tables\Columns\ImageColumn::make('avatar_url')
                     ->label('Avatar')
                     ->width(50)
                     ->height(50)
                     ->searchable()
                     ->sortable(),
-                \Filament\Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
-                \Filament\Tables\Columns\TextColumn::make('username')
+                Tables\Columns\TextColumn::make('username')
                     ->label('Username')
                     ->searchable()
                     ->sortable(),
-                \Filament\Tables\Columns\TextColumn::make('email')
+                Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable()
                     ->sortable(),
@@ -116,7 +116,7 @@ class UserResource extends Resource
                     ->badge()
                     ->searchable()
                     ->sortable(),
-                \Filament\Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
                     ->dateTime()
                     ->since()
@@ -124,7 +124,7 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable()
                     ->sortable(),
-                \Filament\Tables\Columns\TextColumn::make('updated_at')
+                Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated At')
                     ->dateTime()
                     ->since()
