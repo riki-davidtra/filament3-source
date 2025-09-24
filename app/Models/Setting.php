@@ -11,11 +11,7 @@ class Setting extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = [
-        'uuid',
-        'name',
-        'order',
-    ];
+    protected $guarded = [];
 
     public function uniqueIds(): array
     {

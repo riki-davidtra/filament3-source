@@ -98,6 +98,10 @@ class Settings extends Page implements Forms\Contracts\HasForms
                 }
 
                 $settingFields[] = $field;
+
+                if (!empty($item->helper_text)) {
+                    $field->helperText($item->helper_text);
+                }
             }
 
             if (!empty($settingFields)) {

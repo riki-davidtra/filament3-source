@@ -11,14 +11,7 @@ class SettingItem extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = [
-        'uuid',
-        'setting_id',
-        'name',
-        'key',
-        'type',
-        'value',
-    ];
+    protected $guarded = [];
 
     public function uniqueIds(): array
     {

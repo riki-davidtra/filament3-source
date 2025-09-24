@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('key');
             $table->string('type');
             $table->text('value')->nullable();
+            $table->text('helper_text')->nullable();
             $table->timestamps();
         });
     }
