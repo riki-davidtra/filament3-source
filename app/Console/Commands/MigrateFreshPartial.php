@@ -14,6 +14,18 @@ class MigrateFreshPartial extends Command
 
     public function handle()
     {
+        if (app()->environment('production')) {
+            $this->warn(str_repeat('=', 60));
+            $this->warn('⚠️ WARNING: You are about to run migrate:fresh-partial in PRODUCTION!');
+            $this->warn('This will DROP tables (except the ones you skipped) and re-run migrations.');
+            $this->warn(str_repeat('=', 60));
+
+            if (! $this->confirm('Do you really want to continue?', false)) {
+                $this->error('❌ Operation cancelled.');
+                return 1;
+            }
+        }
+
         $skipDrop     = [
             'users',
             'sessions',
@@ -88,6 +100,7 @@ class MigrateFreshPartial extends Command
             try {
                 Artisan::call('migrate', [
                     '--path' => 'database/migrations/' . basename($file),
+                    '--force' => true,
                 ]);
                 $this->info("  Migrated: $filename");
             } catch (\Throwable $e) {
@@ -110,7 +123,9 @@ class MigrateFreshPartial extends Command
                 $this->warn("  Skipped seed: $seeder");
                 config(["seeder.skip.{$seeder}" => true]);
             }
-            Artisan::call('db:seed', [], $this->getOutput());
+            Artisan::call('db:seed', [
+                '--force' => true,
+            ], $this->getOutput());
         }
 
         $this->newLine();

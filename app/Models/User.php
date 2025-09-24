@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Support\Facades\Storage;
 use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
@@ -13,7 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements HasAvatar
+class User extends Authenticatable implements HasAvatar, FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasUuids, HasRoles, HasSuperAdmin;
@@ -77,5 +79,11 @@ class User extends Authenticatable implements HasAvatar
         // return $this->$avatarColumn ? Storage::url($this->$avatarColumn) : null;
 
         return $this->avatar_url ? Storage::url("$this->avatar_url") : null;
+    }
+
+    // tambahkan ini dan implements FilamentUser ketika di mode production
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
     }
 }
