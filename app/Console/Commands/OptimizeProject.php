@@ -28,12 +28,6 @@ class OptimizeProject extends Command
         $this->info('Running optimization commands...');
 
         $commands = [
-            // 'view:clear',
-            // 'route:clear',
-            // 'config:clear',
-            // 'cache:clear',
-            // 'filament:optimize',
-
             'view:clear',
             'view:cache',
             'route:clear',
