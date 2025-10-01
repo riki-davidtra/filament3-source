@@ -50,7 +50,9 @@ class AdminPanelProvider extends PanelProvider
                 return App::make('settingItems')['site_name']->value ?? 'Site Name';
             })
             ->favicon(function () {
-                return App::make('settingItems')['favicon']->value ?? asset('/assets/images/favicon.png');
+                $favicon = App::make('settingItems')['favicon']->value ?? null;
+                $faviconUrl = $favicon ? Storage::url($favicon) : asset('assets/images/favicon.png');
+                return $faviconUrl;
             })
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
